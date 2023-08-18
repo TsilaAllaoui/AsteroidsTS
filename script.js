@@ -9,10 +9,10 @@ var Player = /** @class */ (function () {
         var _this = this;
         this.draw = function () {
             ctx.beginPath();
-            ctx.moveTo(_this.info.x + Math.sin(player.info.angle), _this.info.y - 25 + Math.cos(player.info.angle));
-            ctx.lineTo(_this.info.x + 12.5 + Math.sin(player.info.angle), _this.info.y + 12.5 + Math.cos(player.info.angle));
-            ctx.lineTo(_this.info.x - 12.5 + Math.sin(player.info.angle), _this.info.y + 12.5 + Math.cos(player.info.angle));
-            ctx.lineTo(_this.info.x + Math.sin(player.info.angle), _this.info.y - 25 + Math.cos(player.info.angle));
+            ctx.moveTo(_this.info.x, _this.info.y - 25);
+            ctx.lineTo(_this.info.x + 12.5, _this.info.y + 12.5);
+            ctx.lineTo(_this.info.x - 12.5, _this.info.y + 12.5);
+            ctx.lineTo(_this.info.x, _this.info.y - 25);
             ctx.closePath();
             ctx.strokeStyle = "white";
             ctx.stroke();
@@ -43,12 +43,11 @@ var keys = {
     right: false,
 };
 window.addEventListener("keydown", function (e) {
-    console.log(e);
     if (e.code == "ArrowRight") {
-        keys.right = true;
+        player.info.angle += 0.01;
     }
     else if (e.code == "ArrowLeft") {
-        keys.left = true;
+        player.info.angle -= 0.01;
     }
     else if (e.code == "ArrowUp") {
         player.info.velocity[0]++;
@@ -58,14 +57,7 @@ window.addEventListener("keydown", function (e) {
     }
 });
 window.addEventListener("keyup", function (e) {
-    console.log(e);
-    if (e.code == "ArrowRight") {
-        keys.right = false;
-    }
-    else if (e.code == "ArrowLeft") {
-        keys.left = false;
-    }
-    else if (e.code == "ArrowUp") {
+    if (e.code == "ArrowUp") {
         var interval_1 = setInterval(function () {
             if (player.info.velocity[0] > 0)
                 player.info.velocity[0]--;

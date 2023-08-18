@@ -22,22 +22,10 @@ class Player {
 
   draw = () => {
     ctx!.beginPath();
-    ctx!.moveTo(
-      this.info.x + Math.sin(player.info.angle),
-      this.info.y - 25 + Math.cos(player.info.angle)
-    );
-    ctx!.lineTo(
-      this.info.x + 12.5 + Math.sin(player.info.angle),
-      this.info.y + 12.5 + Math.cos(player.info.angle)
-    );
-    ctx!.lineTo(
-      this.info.x - 12.5 + Math.sin(player.info.angle),
-      this.info.y + 12.5 + Math.cos(player.info.angle)
-    );
-    ctx!.lineTo(
-      this.info.x + Math.sin(player.info.angle),
-      this.info.y - 25 + Math.cos(player.info.angle)
-    );
+    ctx!.moveTo(this.info.x, this.info.y - 25);
+    ctx!.lineTo(this.info.x + 12.5, this.info.y + 12.5);
+    ctx!.lineTo(this.info.x - 12.5, this.info.y + 12.5);
+    ctx!.lineTo(this.info.x, this.info.y - 25);
     ctx!.closePath();
     ctx!.strokeStyle = "white";
     ctx!.stroke();
@@ -67,11 +55,10 @@ const keys = {
 };
 
 window.addEventListener("keydown", (e) => {
-  console.log(e);
   if (e.code == "ArrowRight") {
-    keys.right = true;
+    player.info.angle += 0.01;
   } else if (e.code == "ArrowLeft") {
-    keys.left = true;
+    player.info.angle -= 0.01;
   } else if (e.code == "ArrowUp") {
     player.info.velocity[0]++;
   } else if (e.code == "ArrowDown") {
@@ -79,12 +66,7 @@ window.addEventListener("keydown", (e) => {
   }
 });
 window.addEventListener("keyup", (e) => {
-  console.log(e);
-  if (e.code == "ArrowRight") {
-    keys.right = false;
-  } else if (e.code == "ArrowLeft") {
-    keys.left = false;
-  } else if (e.code == "ArrowUp") {
+  if (e.code == "ArrowUp") {
     let interval = setInterval(() => {
       if (player.info.velocity[0] > 0) player.info.velocity[0]--;
       else clearInterval(interval);
