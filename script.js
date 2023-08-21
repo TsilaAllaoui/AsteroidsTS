@@ -18,13 +18,14 @@ var Player = /** @class */ (function () {
             ctx.stroke();
         };
         this.update = function () {
+            // ctx!.save();
             player.draw();
             _this.info.x += _this.info.velocity[0];
             _this.info.y += _this.info.velocity[1];
-            if (keys.right)
-                _this.info.angle += 0.01;
-            if (keys.left)
-                _this.info.angle -= 0.01;
+            ctx.translate(_this.info.x, _this.info.y);
+            ctx.rotate(_this.info.angle);
+            ctx.translate(-_this.info.x, -_this.info.y);
+            // ctx!.restore();
         };
         this.info = info;
     }
@@ -44,10 +45,10 @@ var keys = {
 };
 window.addEventListener("keydown", function (e) {
     if (e.code == "ArrowRight") {
-        player.info.angle += 0.01;
+        player.info.angle = 0.05;
     }
     else if (e.code == "ArrowLeft") {
-        player.info.angle -= 0.01;
+        player.info.angle = -0.05;
     }
     else if (e.code == "ArrowUp") {
         player.info.velocity[0]++;
@@ -57,6 +58,12 @@ window.addEventListener("keydown", function (e) {
     }
 });
 window.addEventListener("keyup", function (e) {
+    if (e.code == "ArrowRight") {
+        player.info.angle = 0;
+    }
+    else if (e.code == "ArrowLeft") {
+        player.info.angle = 0;
+    }
     if (e.code == "ArrowUp") {
         var interval_1 = setInterval(function () {
             if (player.info.velocity[0] > 0)

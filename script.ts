@@ -32,11 +32,14 @@ class Player {
   };
 
   update = () => {
+    // ctx!.save();
     player.draw();
     this.info.x += this.info.velocity[0];
     this.info.y += this.info.velocity[1];
-    if (keys.right) this.info.angle += 0.01;
-    if (keys.left) this.info.angle -= 0.01;
+    ctx!.translate(this.info.x, this.info.y);
+    ctx!.rotate(this.info.angle);
+    ctx!.translate(-this.info.x, -this.info.y);
+    // ctx!.restore();
   };
 }
 
@@ -56,9 +59,9 @@ const keys = {
 
 window.addEventListener("keydown", (e) => {
   if (e.code == "ArrowRight") {
-    player.info.angle += 0.01;
+    player.info.angle = 0.05;
   } else if (e.code == "ArrowLeft") {
-    player.info.angle -= 0.01;
+    player.info.angle = -0.05;
   } else if (e.code == "ArrowUp") {
     player.info.velocity[0]++;
   } else if (e.code == "ArrowDown") {
@@ -66,6 +69,11 @@ window.addEventListener("keydown", (e) => {
   }
 });
 window.addEventListener("keyup", (e) => {
+  if (e.code == "ArrowRight") {
+    player.info.angle = 0;
+  } else if (e.code == "ArrowLeft") {
+    player.info.angle = 0;
+  }
   if (e.code == "ArrowUp") {
     let interval = setInterval(() => {
       if (player.info.velocity[0] > 0) player.info.velocity[0]--;
